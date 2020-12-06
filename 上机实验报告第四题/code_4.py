@@ -115,35 +115,38 @@ def TR(sy,a,b,error):
             h1=h2
     return I
 ###################################
-def Romberg(sy,a,b,error,k=10):
+def Romberg(sy,a,b,error,k=20):
     h1=b-a
     T=np.zeros(k)
-    T[0]=(sy[0]+sy[-1])*h1/2
-    for i in range(1,5):
-        h2=h1/2
-        S=0
-        x=a+h2
-        while 1:
-            if x<b:
-                S+=sy[int((x-a)/(b-a)*len(sy))]
-                x+=h1
-            else:
-                break
-        T[i]=(T[i-1]+h1*S)/2
-        h1=h2
-    print(T)
     S=np.zeros(k)
-    for i in range(4):
-        S[i]=T[i+1]+(T[i+1]-T[i])/3 
-    print(S)
     C=np.zeros(k)
-    for i in range(3):
-        C[i]=S[i+1]+(S[i+1]-S[i])/15
-    print(C)
-    R=np.zeros(2)
-    for i in range(2):
-        R[i]=C[i+1]+(C[i+1]-C[i])/63
-    print(R)
+    R=np.zeros(k)
+    Q=0
+    T[0]=(sy[0]+sy[-1])*h1/2
+    for i in range(1,k):
+        h2=h1/2
+        sum=0
+        x=a+h2
+        while x<b:
+            sum+=sy[int((x-a)/(b-a)*len(sy))]
+            x+=h1
+        T[i]=(T[i-1]+h1*sum)/2
+        h1=h2
+        if i==k-1:
+            print('迭代次数过多，求解失败！')
+            return -1
+        if i-1>=0:
+            S[i-1]=T[i]+(T[i]-T[i-1])/3
+        if i-2>=0:
+            C[i-2]=S[i-1]+(S[i-1]-S[i-2])/15
+        if i-3>=0:
+            R[i-3]=C[i-2]+(C[i-2]-C[i-3])/63
+        if i-4>=0:
+            if abs(R[i-3]-R[i-4])<error:
+                Q=R[i-3]
+                print('两者相减=',abs(R[i-3]-R[i-4]))
+                break
+    return Q       
 ######################################################################
 x0=np.linspace(0,1,11)
 y0=[]
@@ -152,4 +155,6 @@ for i in range(11):
 beg=time.time()
 x=np.linspace(0,1,10000)
 s_y=spline(x0,y0,x)
-Romberg(s_y,0,1,0.00001)
+Q=Romberg(s_y,0,1,0.0001)
+I=np.exp(1)-1
+print('积分准确值=',I,'数值积分的值=',Q,'error=',abs(Q-I))
