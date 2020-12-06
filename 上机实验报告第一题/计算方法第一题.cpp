@@ -4,101 +4,108 @@
 #include<time.h>
 
 using namespace std;
-//ÌáÇ°¶¨Òå¶ÁÈ¡µÄ¾ØÕó½×ÊıÒÔ¼°´ø¿í
+//æå‰å®šä¹‰è¯»å–çš„çŸ©é˜µé˜¶æ•°ä»¥åŠå¸¦å®½
+/***********************
+æ¯ä¸€ä¸ªæ–‡ä»¶é‡Œçš„å¸¦çŠ¶çŸ©é˜µçš„é˜¶æ•°å’Œå¸¦å®½éƒ½ä¸ä¸€æ ·ï¼š
+data20191.dat:é˜¶æ•° 10ï¼Œ å¸¦å®½ 3
+data20192.dat:é˜¶æ•° 20ï¼Œ å¸¦å®½ 4
+data20193.dat:é˜¶æ•° 3120 å¸¦å®½ 6
+data20194.dat:é˜¶æ•° 52100å¸¦å®½ 8
+************************/
 const int arr_size = 52100;
 const int width = 8;
 
-//º¯ÊıµÄÉùÃ÷
+//å‡½æ•°çš„å£°æ˜
 void arr_exchange(float arrtemp[arr_size][width * 2 + 1], float arra[arr_size][arr_size], int arr_size, int width);
 void gauss_solve(float arr_A[arr_size][arr_size], float arr_B[arr_size], float arrx[arr_size], int n, int width);
 struct FileInfo {
-	int id;			// Êı¾İÎÄ¼ş±êÊ¾
-	int ver;		// Êı¾İÎÄ¼ş°æ±¾ºÅ(·ÇÑ¹ËõÎª258£¬Ñ¹ËõÎª514£©
-	//long int id1;		// ±¸ÓÃ±êÖ¾
+	int id;			// æ•°æ®æ–‡ä»¶æ ‡ç¤º
+	int ver;		// æ•°æ®æ–‡ä»¶ç‰ˆæœ¬å·(éå‹ç¼©ä¸º258ï¼Œå‹ç¼©ä¸º514ï¼‰
+	//long int id1;		// å¤‡ç”¨æ ‡å¿—
 };
 
 struct HeadInfo {
-	int n;		  	// ·½³Ì×éµÄ½×Êı
-	int q;          // ´ø×´¾ØÕóÉÏ´ø¿í
-	int p;          // ´ø×´¾ØÕóÏÂ´ø¿í
+	int n;		  	// æ–¹ç¨‹ç»„çš„é˜¶æ•°
+	int q;          // å¸¦çŠ¶çŸ©é˜µä¸Šå¸¦å®½
+	int p;          // å¸¦çŠ¶çŸ©é˜µä¸‹å¸¦å®½
 };
 
 int main()
 {
-	//½á¹¹ÌåµÄÊµÀı»¯
+	//ç»“æ„ä½“çš„å®ä¾‹åŒ–
 	FileInfo f1;
 	HeadInfo h1;
 
-	//´ò¿ªÊı¾İÎÄ¼ş
-	cout << "ÇëÊäÈëÎÄ¼şÃû\t(ÌáÊ¾£ºdata20191.dat)" << endl;
+	//æ‰“å¼€æ•°æ®æ–‡ä»¶
+	cout << "è¯·è¾“å…¥æ–‡ä»¶å\t(æç¤ºï¼šdata20191.dat)" << endl;
 	string filename;
 	cin >> filename;
 	ifstream fin(filename, ifstream::binary);
 	if (!fin.is_open()) cerr << "error" << endl;
 
-	//Ê¹ÓÃreadº¯ÊıÖ±½Ó¶ÁÈ¡ÏàÓ¦³¤¶ÈµÄÊı¾İ
+	//ä½¿ç”¨readå‡½æ•°ç›´æ¥è¯»å–ç›¸åº”é•¿åº¦çš„æ•°æ®
 	fin.read((char*)&f1, sizeof(f1));
 	fin.read((char*)&h1, sizeof(h1));
-	//´òÓ¡¾ØÕóµÄ½×Êı¡¢´ø¿íĞÅÏ¢
-	cout << "¾ØÕóµÄÎÄ¼ş°æ±¾ºÅ£º" << f1.ver << endl
-		<< "¾ØÕó½×Êı£º" << h1.n << endl
-		<< "¾ØÕóµÄ´ø¿í£º" << h1.p << endl;
-	//ÅĞ¶ÏÈ«¾Ö±äÁ¿¶¨ÒåµÄÊı×é³¤¶ÈºÍ´ø¿íÓë¶ÁÈ¡µÄ¾ØÕóĞÅÏ¢ÊÇ·ñÒ»ÖÂ
+	//æ‰“å°çŸ©é˜µçš„é˜¶æ•°ã€å¸¦å®½ä¿¡æ¯
+	cout << "çŸ©é˜µçš„æ–‡ä»¶ç‰ˆæœ¬å·ï¼š" << f1.ver << endl
+		<< "çŸ©é˜µé˜¶æ•°ï¼š" << h1.n << endl
+		<< "çŸ©é˜µçš„å¸¦å®½ï¼š" << h1.p << endl;
+	//åˆ¤æ–­å…¨å±€å˜é‡å®šä¹‰çš„æ•°ç»„é•¿åº¦å’Œå¸¦å®½ä¸è¯»å–çš„çŸ©é˜µä¿¡æ¯æ˜¯å¦ä¸€è‡´
 	if (arr_size != h1.n || width != h1.q)
 	{
-		cerr << "Êı×é³¤¶È¶¨Òå²»ÕıÈ·£¬ÇëÍË³ö³ÌĞò¼ì²éÊı¾İ£¡" << endl;
+		cerr << "æ•°ç»„é•¿åº¦å®šä¹‰ä¸æ­£ç¡®ï¼Œè¯·é€€å‡ºç¨‹åºæ£€æŸ¥æ•°æ®ï¼" << endl;
 		return -1;
 	}
-	cout << "ÊÇ·ñ¼ÌĞø£¿£¨Y 0r N£©" << endl;
+	cout << "æ˜¯å¦ç»§ç»­ï¼Ÿï¼ˆY 0r Nï¼‰" << endl;
 	char confirm;
 	cin >> confirm;
 
-	//ÔÚ¶ÑÇø´´½¨¾ØÕó
-	clock_t t_beg = clock();//Ê±¼ä¼ÇÂ¼
+	//åœ¨å †åŒºåˆ›å»ºçŸ©é˜µ
+	clock_t t_beg = clock();//æ—¶é—´è®°å½•
 	float(*arrtemp)[width * 2 + 1] = new float[arr_size][width * 2 + 1]{};
 	float(*arra)[arr_size] = new float[arr_size][arr_size]{};
 	float* arrb = new float[arr_size];
 	float* arrx = new float[arr_size];
 	clock_t t_mid1 = clock();
-	cout << "ÔÚ¶ÑÇø´´½¨Êı×éµÄÊ±¼ä£º" << t_mid1 - t_beg <<"ms"<< endl;
+	cout << "åœ¨å †åŒºåˆ›å»ºæ•°ç»„çš„æ—¶é—´ï¼š" << t_mid1 - t_beg <<"ms"<< endl;
 	if (confirm == 'Y' || confirm == 'y')
 	{
 		
-		switch (f1.ver)//f1.verÓÃÓÚÅĞ¶ÏÊÇ·ñÎªÑ¹Ëõ¾ØÕó
+		switch (f1.ver)//f1.verç”¨äºåˆ¤æ–­æ˜¯å¦ä¸ºå‹ç¼©çŸ©é˜µ
 		{
-		case 258://·ÇÑ¹Ëõ¾ØÕó
+		case 258://éå‹ç¼©çŸ©é˜µ
 			fin.read((char*)arra, 4 * arr_size * arr_size);
 			fin.read((char*)arrb, 4 * arr_size);
-			cout << "·ÇÑ¹Ëõ¾ØÕó¶ÁÈ¡Íê³É" << "\t";
+			cout << "éå‹ç¼©çŸ©é˜µè¯»å–å®Œæˆ" << "\t";
 			break;
-		case 514://Ñ¹Ëõ¾ØÕó
+		case 514://å‹ç¼©çŸ©é˜µ
 			fin.read((char*)arrtemp, 4 * arr_size * (2 * width + 1));
 			fin.read((char*)arrb, 4 * arr_size);
 			arr_exchange(arrtemp, arra, arr_size, width);
-			cout << "Ñ¹Ëõ¾ØÕó¶ÁÈ¡Íê³É" << "\t";
+			cout << "å‹ç¼©çŸ©é˜µè¯»å–å®Œæˆ" << "\t";
 			break;
 		}
 		fin.close();
 		clock_t t_mid2 = clock();
-		cout << "¶ÁÈ¡¾ØÕóµÄÊ±¼äÎª£º" << t_mid2 - t_mid1 << "ms" << endl;
-		cout << "ÕıÔÚ¼ÆËã£¬ÇëµÈ´ı..." << "\t";
-		//¾ØÕó¶ÁÈ¡Íê±Ï£¬µ÷ÓÃ¸ßË¹º¯Êı½øĞĞ¼ÆËã
+		cout << "è¯»å–çŸ©é˜µçš„æ—¶é—´ä¸ºï¼š" << t_mid2 - t_mid1 << "ms" << endl;
+		cout << "æ­£åœ¨è®¡ç®—ï¼Œè¯·ç­‰å¾…..." << "\t";
+		//çŸ©é˜µè¯»å–å®Œæ¯•ï¼Œè°ƒç”¨é«˜æ–¯å‡½æ•°è¿›è¡Œè®¡ç®—
 		gauss_solve(arra, arrb, arrx, arr_size, width);
 
 		clock_t t_end = clock();
-		cout << "¼ÆËã¾ØÕóµÄÊ±¼äÎª£º" << t_end - t_mid2 << "ms" << endl;
-		cout << "¼ÆËãÍê±Ï£¬´òÓ¡½á¹û" << endl;
+		cout << "è®¡ç®—çŸ©é˜µçš„æ—¶é—´ä¸ºï¼š" << t_end - t_mid2 << "ms" << endl;
+		cout << "è®¡ç®—å®Œæ¯•ï¼Œæ‰“å°ç»“æœ" << endl;
 		for (int i = 0; i < 10; ++i)
 		{
-			cout << "µÚ" << i + 1 << "¸ö½â£º" << arrx[i] << endl;
+			cout << "ç¬¬" << i + 1 << "ä¸ªè§£ï¼š" << arrx[i] << endl;
 		}
 		cout << "..." << endl;
 		for (int i = 0; i < 10; ++i)
 		{
-			cout << "µÚ" << arr_size - 9 + i << "¸ö½â£º" << arrx[arr_size - 10 + i] << endl;
+			cout << "ç¬¬" << arr_size - 9 + i << "ä¸ªè§£ï¼š" << arrx[arr_size - 10 + i] << endl;
 		}
 	}
-	else cout << "ÒÑÍË³ö³ÌĞò" << endl;
+	else cout << "å·²é€€å‡ºç¨‹åº" << endl;
 	delete[]arrtemp;
 	delete[]arra;
 	delete[]arrb;
@@ -106,7 +113,7 @@ int main()
 	return 0;
 }
 
-//Ñ¹Ëõ¾ØÕó×ª»»Îª·ÇÑ¹Ëõ¾ØÕó
+//å‹ç¼©çŸ©é˜µè½¬æ¢ä¸ºéå‹ç¼©çŸ©é˜µ
 void arr_exchange(float arrtemp[arr_size][width * 2 + 1], float arra[arr_size][arr_size], int arr_size, int width)
 {
 	for (int i = 0; i < arr_size; ++i)
@@ -126,12 +133,12 @@ void arr_exchange(float arrtemp[arr_size][width * 2 + 1], float arra[arr_size][a
 	}
 }
 
-//¸ßË¹ÏûÔªÇó½âº¯Êı
+//é«˜æ–¯æ¶ˆå…ƒæ±‚è§£å‡½æ•°
 void gauss_solve(float arr_A[arr_size][arr_size], float arr_B[arr_size], float arrx[arr_size], int n, int width)
 {
 	for (int k = 0; k < n - 1; k++)
 	{
-		if (arr_A[k][k] == 0) cerr << "Ö÷ÔªÎª0£¬³ÌĞòÊ§°Ü" << endl;
+		if (arr_A[k][k] == 0) cerr << "ä¸»å…ƒä¸º0ï¼Œç¨‹åºå¤±è´¥" << endl;
 		for (int i = k + 1; i <= k + width && i < n; i++)
 		{
 			float temp = arr_A[i][k] / arr_A[k][k];
