@@ -2,7 +2,7 @@ import numpy as np
 import time
 import math
 ##########################################################
-def judge(a,b):
+def judge(a,b):#该函数的作用：用于判断后面for循环里终点的位置，让for循环只处理矩阵里的非0数据
     if a>b:
         return int(b) 
     if a<b:
@@ -10,7 +10,7 @@ def judge(a,b):
     if a==b:
         return int(a)
 #############################
-def exchange(atemp,a,rows,width):
+def exchange(atemp,a,rows,width):#该函数的作用是将读取的压缩矩阵（m*n）转变成（m*m）的方阵
     for i in range(rows):
         a[i][i]=atemp[i][width]
         for j in range(1,width+1):
@@ -28,7 +28,7 @@ def file_read():
     width=fileinfo[3]
     
     mat_data=np.fromfile(filepath,dtype=np.float32)
-    if flag==258:
+    if flag==258:#根据矩阵的压缩判断编号确定读取矩阵的方式
         data_a=mat_data[5:rows*cols+5]
         mat_a=np.zeros((rows,cols))
         for i in range(rows):
@@ -56,14 +56,14 @@ def gauss_solve(arr_A,arr_B,n,width):
             temp=arr_A[i][k] / arr_A[k][k]
             for j in range(k,judge(n,k+2*width+2)):
                 arr_A[i][j] = arr_A[i][j] - temp * arr_A[k][j]
-            arr_B[i] = arr_B[i] - temp * arr_B[k]
+            arr_B[i] = arr_B[i] - temp * arr_B[k]#消元过程，因为是带状矩阵，就不用列主元消元了
 
     arrx[n - 1] = arr_B[n - 1] / arr_A[n - 1][n - 1]
     for k in range(n-1,-1,-1):
         temp = arr_B[k]
         for j in range(k+1,judge(n,k+width+1)):
             temp = temp - arr_A[k][j] * arrx[j]
-        arrx[k] = temp / arr_A[k][k]
+        arrx[k] = temp / arr_A[k][k]#回代过程结束
     return arrx
 ##########################################################
 start=time.time()
