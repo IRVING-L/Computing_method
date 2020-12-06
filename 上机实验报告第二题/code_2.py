@@ -78,13 +78,13 @@ def spline(x_0,y_0,x):#分段三次样条插值
     temp=y_0[0:4]
     for k in range(1,4):
         for i in range(3,k-1,-1):
-            temp[i] = (temp[i]-temp[i-1]) / (x0[i]-x0[i-k])
+            temp[i] = (temp[i]-temp[i-1]) / (x_0[i]-x_0[i-k])
     d0=-12*mat_h[1]*temp[3]
 
     temp=y_0[len(y_0)-4:]
     for k in range(1,4):
         for i in range(3,k-1,-1):
-            temp[i] = (temp[i]-temp[i-1]) / (x0[len(y_0)-4+i]-x0[len(y_0)-4+i-k])
+            temp[i] = (temp[i]-temp[i-1]) / (x_0[len(y_0)-4+i]-x_0[len(y_0)-4+i-k])
     dn=12*mat_h[len(mat_h)-1]*temp[3]
     mat_D[0]=d0
     mat_D[len(mat_D)-1]=dn
@@ -115,14 +115,14 @@ def spline(x_0,y_0,x):#分段三次样条插值
                 k=j
                 break
         if k>0:
-            a1 = (x0[k] - x[i])
-            a2 = (x[i] - x0[k - 1])
+            a1 = (x_0[k] - x[i])
+            a2 = (x[i] - x_0[k - 1])
             h = mat_h[k]
             y[i] = ( mat_M[k - 1] * a1 * a1 * a1 / 6
 			+ mat_M[k] * a2 * a2 * a2 / 6
-			+ (y0[k - 1] - mat_M[k - 1] * h * h / 6) * a1
-			+ (y0[k] - mat_M[k] * h * h / 6) * a2 ) / h
-            y[i]=-y[i]
+			+ (y_0[k - 1] - mat_M[k - 1] * h * h / 6) * a1
+			+ (y_0[k] - mat_M[k] * h * h / 6) * a2 ) / h
+            #y[i]=-y[i]
         else:
             print("数据超出范围")
             return -1
