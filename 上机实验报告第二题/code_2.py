@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 ######################################################################
-def gauss_solve(arr_A,arr_B,arrx,n,width):
+def gauss_solve(arr_A,arr_B,arrx,n,width):#高斯消元法，用于求解矩阵M
     for k in range(n-1):
         if arr_A[k][k]==0:
             print('主元为0，消元失败')
@@ -20,7 +20,7 @@ def gauss_solve(arr_A,arr_B,arrx,n,width):
             temp = temp - arr_A[k][j] * arrx[j]
         arrx[k] = temp / arr_A[k][k]
 ###################################
-def linear(x_0,y_0,x):
+def linear(x_0,y_0,x):#分段一次插值
     y=np.zeros(len(x))
     for j in range(len(x)):
         k=0
@@ -35,7 +35,7 @@ def linear(x_0,y_0,x):
             return -1
     return y
 ###################################
-def Newton(x_0,y_0,x):
+def Newton(x_0,y_0,x):#分段二次牛顿插值
     y=np.zeros(len(x))
     for n in range(len(x)):
         k=0
@@ -61,7 +61,7 @@ def Newton(x_0,y_0,x):
             return -1
     return y
 ###################################
-def spline(x_0,y_0,x):
+def spline(x_0,y_0,x):#分段三次样条插值
     mat_D=np.zeros(len(x_0))
     for i in range(1,len(x_0)-1):
         x0_temp=x_0[i-1:i+2]
@@ -128,14 +128,15 @@ def spline(x_0,y_0,x):
             return -1
     return y
 ######################################################################
-
+#河床的初始数据
 x0 = list(range(0,54,2))
 y0 = [0,4.01,6.96,7.96,7.97,8.02,9.05,10.13,11.18,12.26,13.28,12.61,10.22,7.9,7.95,8.86,10.8,10.93,11.23,11.3,10.94,10.1,9.54,8.3,7.3,2.5,0.2]
-x=np.linspace(0,51.9,500)
 
+x=np.linspace(0,51.9,500)
 y1=linear(x0,y0,x)
 y2=Newton(x0,y0,x)
 y3=spline(x0,y0,x)
+
 plt.subplot(311)
 plt.plot(x,y1)
 plt.title('sectional Linear interpolation')
