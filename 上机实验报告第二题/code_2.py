@@ -24,7 +24,7 @@ def linear(x_0,y_0,x):#分段一次插值
     y=np.zeros(len(x))
     for j in range(len(x)):
         k=0
-        for i in range(1,len(x_0)):
+        for i in range(1,len(x_0)):#查找x值所属的区间段
             if x[j]<=x_0[i]:
                 k=i
                 break
@@ -39,7 +39,7 @@ def Newton(x_0,y_0,x):#分段二次牛顿插值
     y=np.zeros(len(x))
     for n in range(len(x)):
         k=0
-        for i in range(1,len(x_0),2):
+        for i in range(1,len(x_0),2):#查找x值所属的区间段
             if x_0[i-1]<=x[n] and x[n]<x_0[i+1]:
                 k=i
                 break
@@ -62,6 +62,7 @@ def Newton(x_0,y_0,x):#分段二次牛顿插值
     return y
 ###################################
 def spline(x_0,y_0,x):#分段三次样条插值
+    #第一步，构造矩阵d，d1~dn-1是可以从y的三阶差商计算得来
     mat_D=np.zeros(len(x_0))
     for i in range(1,len(x_0)-1):
         x0_temp=x_0[i-1:i+2]
@@ -70,25 +71,25 @@ def spline(x_0,y_0,x):#分段三次样条插值
             for q in range(2,j-1,-1):
                 y0_temp[q] = (y0_temp[q]-y0_temp[q-1]) / (x0_temp[q]-x0_temp[q-j])
         mat_D[i]=6*y0_temp[2]
-
+    #第二步，构造矩阵h存放hi，hi的计算从书上得来，hi的值会贯穿后面的程序
     mat_h=np.zeros(len(x_0))
     for i in range(1,len(x_0)):
         mat_h[i]=x_0[i]-x_0[i-1]
-
+    #第三步，样条插值必须要有边界条件，我选的是第三种边界条件，需要计算d0和dn
     temp=y_0[0:4]
     for k in range(1,4):
         for i in range(3,k-1,-1):
             temp[i] = (temp[i]-temp[i-1]) / (x_0[i]-x_0[i-k])
-    d0=-12*mat_h[1]*temp[3]
+    d0=-12*mat_h[1]*temp[3]#边界条件d0的计算
 
     temp=y_0[len(y_0)-4:]
     for k in range(1,4):
         for i in range(3,k-1,-1):
             temp[i] = (temp[i]-temp[i-1]) / (x_0[len(y_0)-4+i]-x_0[len(y_0)-4+i-k])
-    dn=12*mat_h[len(mat_h)-1]*temp[3]
+    dn=12*mat_h[len(mat_h)-1]*temp[3]#边界条件dn的计算
     mat_D[0]=d0
-    mat_D[len(mat_D)-1]=dn
-
+    mat_D[len(mat_D)-1]=dn#至此，矩阵dn计算完成
+    #第四步，构造矩阵A。矩阵A是一个带状矩阵，对角线上是常量2，上带是λ0~λn-1，下带是μ1~μn
     mat_A=np.identity(len(x_0))
     mat_p1=np.zeros(len(x_0))
     mat_p2=np.zeros(len(x_0))
@@ -103,14 +104,14 @@ def spline(x_0,y_0,x):#分段三次样条插值
             mat_A[i][i - 1] = mat_p2[i - 1]
         if i+1<len(x_0):
             mat_A[i][i + 1] = mat_p1[i]
-
+    #第五步，有了构造好的矩阵A，矩阵d，即可调用高斯消元求解矩阵M。A*M=d
     mat_M=np.zeros(len(x_0))
     gauss_solve(mat_A, mat_D, mat_M, len(x_0), 1)
-
+    #第六步 利用计算求得的矩阵M，求解插值y
     y=np.zeros(len(x))
     for i in range(len(x)):
         k=0
-        for j in range(1,len(x_0)):
+        for j in range(1,len(x_0)):#查找x值所属的区间段
             if x[i]<=x_0[j]:
                 k=j
                 break
