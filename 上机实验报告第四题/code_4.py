@@ -87,7 +87,7 @@ def spline(x_0,y_0,x):#分段三次样条插值
             return -1
     return y
 ###################################
-def TR(sy,a,b,error):
+def TR(sy,a,b,error):#自动求步长h的复化梯形数值积分函数
     #1
     h1=b-a
     #2
@@ -115,7 +115,8 @@ def TR(sy,a,b,error):
             h1=h2
     return I
 ###################################
-def Romberg(sy,a,b,error,k=20):
+def Romberg(sy,a,b,error,k=20):#romberg函数。没有按照书上的步骤写，goto语句太恶心。
+    #核心思想是，5个Tn->4个Cn->3个Sn->2个Rn->两个Rn相减与误差error相比较，如果不满足误差要求，再计算一个新Tn->新Cn->新Sn->新Rn->再相减与error比较
     h1=b-a
     T=np.zeros(k)
     S=np.zeros(k)
