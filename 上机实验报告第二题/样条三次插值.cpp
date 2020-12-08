@@ -4,12 +4,12 @@
 #include<fstream>
 using namespace std;
 /*
-¸Ã³ÌĞòÎªC++°æ±¾µÄÑùÌõÈı´Î²åÖµº¯Êı
-1.ĞèÒªÔ¤ÏÈ¶¨Òå²åÖµÊı¾İµÄ¸öÊı
-2.Êı¾İ¶¨ÒåºÃºó£¬½«109ĞĞµÄforÑ­»·µÄÆğµã¡¢ÖÕµã¡¢¾«¶ÈÉèÖÃÎª×Ô¼ºµÄ²åÖµÊı¾İ·¶Î§µÄÕıÈ·Êı×Ö
-3.¸Ã³ÌĞòÕı³£ÉèÖÃ²ÎÊı²¢ÔËĞĞºó£¬½«»áÔÚDÅÌÖĞ±£´æÒ»¸öExcelÎÄ¼ş£¬ÆäÄÚÈİÊÇ²åÖµµãµÄÊıÖµ
+è¯¥ç¨‹åºä¸ºC++ç‰ˆæœ¬çš„æ ·æ¡ä¸‰æ¬¡æ’å€¼å‡½æ•°
+1.éœ€è¦é¢„å…ˆå®šä¹‰æ’å€¼æ•°æ®çš„ä¸ªæ•°ï¼Œæ’å€¼æ•°æ®çš„å¯¼å…¥æ—¶åœ¨æ ‡å‡†è¾“å…¥ä¸­ï¼ˆé»‘æ¡†ï¼‰è¿›è¡Œè¾“å…¥çš„
+2.æ•°æ®å®šä¹‰å¥½åï¼Œå°†109è¡Œçš„forå¾ªç¯çš„èµ·ç‚¹ã€ç»ˆç‚¹ã€ç²¾åº¦è®¾ç½®ä¸ºè‡ªå·±çš„æ’å€¼æ•°æ®èŒƒå›´çš„æ­£ç¡®æ•°å­—
+3.è¯¥ç¨‹åºæ­£å¸¸è®¾ç½®å‚æ•°å¹¶è¿è¡Œåï¼Œå°†ä¼šåœ¨Dç›˜ä¸­ä¿å­˜ä¸€ä¸ªExcelæ–‡ä»¶ï¼Œå…¶å†…å®¹æ˜¯æ’å€¼ç‚¹çš„æ•°å€¼
 */
-//¶¨Òå²åÖµÊı¾İµÄ¸öÊı
+//å®šä¹‰æ’å€¼æ•°æ®çš„ä¸ªæ•°
 const int arr_size = 27;
 
 void gauss_solve(float arr_A[arr_size][arr_size], float arr_B[arr_size], float arrx[arr_size], int n, int width);
@@ -17,21 +17,21 @@ inline float get_y(const float x0[], const float y0[], const float mat_h[], cons
 int main()
 {
 	
-	//×Ô¼º°´ÕÕÀí½âĞ´¡¢
-	//ÑùÌõ²åÖµ´ó¿éÉÏ·ÖÎªÁ½²¿·Ö
-	//µÚÒ»£ºA*M=D£¬ÏÈÀûÓÃ²åÖµÊı¾İµãºÍ±ß½çÌõ¼şÈı£¬Ëã³ö´ø×´¾ØÕóA£¬¾ØÕóD£¬È»ºóÀûÓÃ¸ßË¹ÏûÔª·´ÇóM
-	//µÚ¶ş£ºËã³ö¾ØÕóMºó£¬ÔÙ»Øµ½ÊéÉÏ¹«Ê½£¬Çó³öx¶ÔÓ¦µÄº¯ÊıÖµ
+	//è‡ªå·±æŒ‰ç…§ç†è§£å†™ã€
+	//æ ·æ¡æ’å€¼å¤§å—ä¸Šåˆ†ä¸ºä¸¤éƒ¨åˆ†
+	//ç¬¬ä¸€ï¼šA*M=Dï¼Œå…ˆåˆ©ç”¨æ’å€¼æ•°æ®ç‚¹å’Œè¾¹ç•Œæ¡ä»¶ä¸‰ï¼Œç®—å‡ºå¸¦çŠ¶çŸ©é˜µAï¼ŒçŸ©é˜µDï¼Œç„¶ååˆ©ç”¨é«˜æ–¯æ¶ˆå…ƒåæ±‚M
+	//ç¬¬äºŒï¼šç®—å‡ºçŸ©é˜µMåï¼Œå†å›åˆ°ä¹¦ä¸Šå…¬å¼ï¼Œæ±‚å‡ºxå¯¹åº”çš„å‡½æ•°å€¼
 
 
-	//µÚÒ»²½£¬ÏÈ»ñÈ¡²åÖµÊı¾İµã
+	//ç¬¬ä¸€æ­¥ï¼Œå…ˆè·å–æ’å€¼æ•°æ®ç‚¹
 	float x0[arr_size], y0[arr_size];
-	cout << "ÇëÊäÈë²åÖµÊı¾İµã" << endl;
+	cout << "è¯·è¾“å…¥æ’å€¼æ•°æ®ç‚¹" << endl;
 	for (int i = 0; i < arr_size; ++i)
 	{
 		cin >> x0[i] >> y0[i];
 	}
-	cout << "¶ÁÈ¡²åÖµÊı¾İµãÍê³É" << endl;
-	//µÚ¶ş²½£¬Ëã³öD
+	cout << "è¯»å–æ’å€¼æ•°æ®ç‚¹å®Œæˆ" << endl;
+	//ç¬¬äºŒæ­¥ï¼Œç®—å‡ºD
 	float mat_D[arr_size], x0_temp[3], y0_temp[3];
 	for (int i = 1; i < arr_size - 1; ++i)
 	{
@@ -49,15 +49,15 @@ int main()
 		}
 		mat_D[i] = 6 * y0_temp[2];
 	}
-	//mat_DµÄÊ×Î²ÔªËØÊÇ±ß½çÌõ¼şd0,dn¾ö¶¨µÄ,Òò´ËÒªËã³öd0,dnµÄÖµ
+	//mat_Dçš„é¦–å°¾å…ƒç´ æ˜¯è¾¹ç•Œæ¡ä»¶d0,dnå†³å®šçš„,å› æ­¤è¦ç®—å‡ºd0,dnçš„å€¼
 
 	float mat_h[arr_size] = {};
-	//ÏÈ¼ÆËã¾ØÕóhµÄÖµ
+	//å…ˆè®¡ç®—çŸ©é˜µhçš„å€¼
 	for (int i = 1; i < arr_size; ++i)
 	{
 		mat_h[i] = x0[i] - x0[i - 1];
 	}
-	//Ëãd0£¬ËûÊÇËÄ½×²îÉÌ
+	//ç®—d0ï¼Œä»–æ˜¯å››é˜¶å·®å•†
 	float temp[arr_size];
 	for (int i = 0; i < 4; ++i) temp[i] = y0[i];
 	for (int k = 1; k < 4; ++k)
@@ -68,27 +68,27 @@ int main()
 		}
 	}
 	float d0 = -12*mat_h[1]*temp[3];
-	//Ëãdn£¬ËûÊÇËÄ½×²îÉÌ
+	//ç®—dnï¼Œä»–æ˜¯å››é˜¶å·®å•†
 	for (int i = 0; i < 4; ++i) temp[i] = y0[arr_size - 4 + i];
 	for (int k = 1; k < 4; ++k)
 	{
 		for (int i = 3; i >= k; --i)
 		{
-			temp[i] = (temp[i] - temp[i - 1]) / (x0[arr_size - 4 + i] - x0[arr_size - 4 + i - k]);//x0µÄ½Ç±êÒª×¢Òâ
+			temp[i] = (temp[i] - temp[i - 1]) / (x0[arr_size - 4 + i] - x0[arr_size - 4 + i - k]);//x0çš„è§’æ ‡è¦æ³¨æ„
 		}
 	}
 	float dn = 12*mat_h[arr_size-1]*temp[3];
 	mat_D[0] = d0;
 	mat_D[arr_size - 1] = dn;
 	
-	//µÚÈı²½£¬Ëã¾ØÕóA
+	//ç¬¬ä¸‰æ­¥ï¼Œç®—çŸ©é˜µA
 	float mat_A[arr_size][arr_size] = {};
 	float mat_p1[arr_size-1], mat_p2[arr_size-1];
 	
 	for (int i = 0; i < arr_size - 1; ++i)
 	{
-		mat_p1[i] = mat_h[i + 1] / (mat_h[i] + mat_h[i + 1]); //¦Ëi
-		mat_p2[i] = 1 - mat_p1[i];//¦Ìi
+		mat_p1[i] = mat_h[i + 1] / (mat_h[i] + mat_h[i + 1]); //Î»i
+		mat_p2[i] = 1 - mat_p1[i];//Î¼i
 	}
 	mat_p1[0] = -2;
 	mat_p2[arr_size - 2] = -2;
@@ -97,21 +97,21 @@ int main()
 		mat_A[i][i] = 2;
 		if (i - 1 >= 0) mat_A[i][i - 1] = mat_p2[i - 1];
 		if (i + 1 < arr_size) mat_A[i][i + 1] = mat_p1[i];
-	}//¾ØÕóA¼ÆËãÍê³É
+	}//çŸ©é˜µAè®¡ç®—å®Œæˆ
 
 	
-	//µÚËÄ²½£¬Ê¹ÓÃ¸ßË¹ÏûÔªÇó½â¾ØÕóM
+	//ç¬¬å››æ­¥ï¼Œä½¿ç”¨é«˜æ–¯æ¶ˆå…ƒæ±‚è§£çŸ©é˜µM
 	float mat_M[arr_size];
 	gauss_solve(mat_A, mat_D, mat_M, arr_size, 1);
-	cout << "Ğ´ÈëÎÄ¼şÖĞ..." << endl;
+	cout << "å†™å…¥æ–‡ä»¶ä¸­..." << endl;
 	ofstream fout("D:\\data.csv", ofstream::out | ofstream::trunc);
-	if (!fout.is_open()) cerr << "´ò¿ªÎÄ¼şÊ§°Ü" << endl;
+	if (!fout.is_open()) cerr << "æ‰“å¼€æ–‡ä»¶å¤±è´¥" << endl;
 	for (float i = 0; i < 52; i += 0.1)
 	{
 		fout <<i<<","<< -get_y(x0, y0, mat_h, mat_M, i) << endl;
 	}
 	fout.close();
-	cout << "²åÖµ¼ÆËãÍê³É" << endl;
+	cout << "æ’å€¼è®¡ç®—å®Œæˆ" << endl;
 	return 0;
 }
 
@@ -120,7 +120,7 @@ void gauss_solve(float arr_A[arr_size][arr_size], float arr_B[arr_size], float a
 {
 	for (int k = 0; k < n - 1; k++)
 	{
-		if (arr_A[k][k] == 0) cerr << "Ö÷ÔªÎª0£¬³ÌĞòÊ§°Ü" << endl;
+		if (arr_A[k][k] == 0) cerr << "ä¸»å…ƒä¸º0ï¼Œç¨‹åºå¤±è´¥" << endl;
 		for (int i = k + 1; /*i <=k+width &&*/ i<n; i++)
 		{
 			float temp = arr_A[i][k] / arr_A[k][k];
@@ -167,8 +167,8 @@ inline float get_y(const float x0[],const float y0[], const float mat_h[], const
 	}
 	else
 	{
-		cerr << "ÊäÈëµÄxÖµ³¬³öÁËÄÜ¹»²åÖµµÄ·¶Î§" << endl
-			<< "ÄãÊäÈëµÄxÖµ£º" << x << endl;
+		cerr << "è¾“å…¥çš„xå€¼è¶…å‡ºäº†èƒ½å¤Ÿæ’å€¼çš„èŒƒå›´" << endl
+			<< "ä½ è¾“å…¥çš„xå€¼ï¼š" << x << endl;
 		return -1;
 	}
 }
