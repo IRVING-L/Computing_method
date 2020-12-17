@@ -21,8 +21,8 @@ def exchange(atemp,a,rows,width):#该函数的作用是将读取的压缩矩阵�
 #############################
 def file_read():
     #如果要计算data20194.dat这个52100阶的矩阵，需要修改电脑的配置，开辟更大的虚拟内存（10G以上），否则会报错
-    filepath='D:\\QQFiles\\2020-8班大作业\\data20194.dat'
-    fileinfo=np.fromfile(filepath,dtype=np.int32,count=5)
+    filepath='D:\\QQFiles\\2020-8班大作业\\data20194.dat' #文件的保存路径
+    fileinfo=np.fromfile(filepath,dtype=np.int32,count=5) #读取矩阵的headinfo和fileinfo
     flag=fileinfo[1]   #flag是用于判断矩阵是否为压缩矩阵的标志
     rows=cols=fileinfo[2]
     width=fileinfo[3]
