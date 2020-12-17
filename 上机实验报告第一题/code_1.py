@@ -24,8 +24,8 @@ def file_read():
     filepath='D:\\QQFiles\\2020-8班大作业\\data20194.dat' #文件的保存路径
     fileinfo=np.fromfile(filepath,dtype=np.int32,count=5) #读取矩阵的headinfo和fileinfo
     flag=fileinfo[1]   #flag是用于判断矩阵是否为压缩矩阵的标志
-    rows=cols=fileinfo[2]
-    width=fileinfo[3]
+    rows=cols=fileinfo[2] #矩阵的阶数
+    width=fileinfo[3] #矩阵的带宽
     
     mat_data=np.fromfile(filepath,dtype=np.float32)
     if flag==258:#根据矩阵的压缩判断编号确定读取矩阵的方式
