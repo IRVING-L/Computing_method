@@ -145,17 +145,19 @@ def Romberg(sy,a,b,error,k=20):#romberg函数。没有按照书上的步骤写�
         if i-4>=0:
             if abs(R[i-3]-R[i-4])<error:
                 Q=R[i-3]
-                print('两者相减=',abs(R[i-3]-R[i-4]))
+                #print('两者相减=',abs(R[i-3]-R[i-4]))
                 break
     return Q       
 ######################################################################
-x0=np.linspace(0,1,11)
-y0=[]
-for i in range(11):
-    y0.append(np.exp(x0[i]))
-beg=time.time()
-x=np.linspace(0,1,10000)
+x0=list(range(13))
+y0=[202074,177540,56644,17872,6617,2514,1100,462,289,127,150,47,41]
+x=np.linspace(0,12,1000)
 s_y=spline(x0,y0,x)
-Q=Romberg(s_y,0,1,0.0001)
-I=np.exp(1)-1
-print('积分准确值=',I,'数值积分的值=',Q,'error=',abs(Q-I))
+plt.figure(figsize=(10,5), dpi=100)
+plt.plot(x,s_y,'r')
+plt.plot(x0,y0,'+')
+
+plt.bar(x0,y0,width=1,color='g')
+plt.show()
+Q=Romberg(s_y,0,12,1)
+print('数值积分=',Q)
