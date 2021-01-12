@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 ######################################################################
 def gauss_solve(arr_A,arr_B,arrx,n):#高斯消元法，用于求解矩阵M
     for k in range(n-1):
@@ -96,6 +97,8 @@ def spline(x_0,y_0,x):#分段三次样条插值
 
    
     y=np.zeros(len(x))
+    sum=0
+    dx=x[1]-x[0]
     for i in range(len(x)):
         k=0
         for j in range(1,len(x_0)):
@@ -110,6 +113,11 @@ def spline(x_0,y_0,x):#分段三次样条插值
 			+ mat_M[k] * a2 * a2 * a2 / 6
 			+ (y_0[k - 1] - mat_M[k - 1] * h * h / 6) * a1
 			+ (y_0[k] - mat_M[k] * h * h / 6) * a2 ) / h
+            ###计算曲线长度
+            df=(-mat_M[k - 1]*a1*a1/2+mat_M[k]*a2*a2/2+(y_0[k]-y_0[k-1])-(mat_M[k]-mat_M[k - 1])/6*h*h)/h
+            sum+=math.sqrt(1+df*df)*dx
+    print('三次样条曲线长度：',sum,'m')
+            
     return y
 ######################################################################
 #河床的初始数据
@@ -117,10 +125,10 @@ x0 = list(range(0,54,2))
 y0 = [0,4.01,6.96,7.96,7.97,8.02,9.05,10.13,11.18,12.26,13.28,12.61,10.22,7.9,7.95,8.86,10.8,10.93,11.23,11.3,10.94,10.1,9.54,8.3,7.3,2.5,0.2]
 
 x=np.linspace(0,51.9,500)
-y1=linear(x0,y0,x)
-y2=Newton(x0,y0,x)
-y3=spline(x0,y0,x)
-
+y1=linear(x0,y0,x)#分段一次
+y2=Newton(x0,y0,x)#分段二次牛顿
+y3=spline(x0,y0,x)#样条三次
+#绘图
 plt.subplot(311)
 plt.plot(x,y1)
 plt.title('sectional Linear interpolation')
